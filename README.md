@@ -1,6 +1,11 @@
-# cinemit
+# CineMit
 
-cinema showtimes app
+cinema showtime app
+
+## Getting Started
+Following [my failed project](https://www.cinemit.app) of group meetings at the cinema, I decided to remake CineMit just to show cinema showtime, which is a very useful app for me.
+
+All contributions are welcome.
 
 ## Getting Started
 
