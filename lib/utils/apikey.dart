@@ -1,0 +1,1 @@
+const SERP_API_KEY = "bfba79cb7ef481a4a53216ec49c5821db080a2d0f079f64264d0098ad0c307be";
