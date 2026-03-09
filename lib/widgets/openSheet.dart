@@ -13,6 +13,15 @@ Widget buildSheet(BuildContext context, List<Showtimes> data, String movieTitle)
   }
 
   return Container(
+
+    decoration: BoxDecoration(
+      color: HSLColor.fromAHSL(1, 240.0, 0.1, 0.04).toColor(),
+      border: Border.all(
+        width: 2,
+        color: Colors.white24
+      ),
+      borderRadius: BorderRadius.circular(50),
+    ),
     constraints: BoxConstraints(
       maxHeight: MediaQuery.of(context).size.height * 0.8,
     ),
@@ -111,7 +120,7 @@ Widget _buildEmptyState() {
       children: [
         const Icon(Icons.movie_filter, size: 48, color: Colors.grey),
         const SizedBox(height: 16),
-        Text("Nessun orario trovato per questo film.")
+        Text("No showtime found")
             .muted(),
       ],
     ),

@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart' hide showDialog, Column, Row, Expanded, Divider, AppBar, TextField, Scaffold;
-import 'package:shadcn_flutter/shadcn_flutter.dart' hide Card;
+import 'package:flutter/material.dart' hide showDialog, AlertDialog, CircularProgressIndicator, TextButton, Column, Row, Expanded, Divider, AppBar, TextField, Scaffold;
+import 'package:shadcn_flutter/shadcn_flutter.dart' hide Card, Colors;
 
 import '../api/requests.dart';
-import '../models/showtimes.dart';
 import '../widgets/openSheet.dart';
 
 class Home extends StatefulWidget {
@@ -15,6 +14,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _movieController = TextEditingController();
+  bool enabled = true;
 
   @override
   void dispose() {
@@ -26,10 +26,19 @@ class HomeState extends State<Home> {
   Future<void> _search() async {
     final city = _cityController.text.trim();
     final movie = _movieController.text.trim();
+    _showLoadingDialog(context);
+    setState(() {
+      enabled = false;
+    });
 
     try {
       final results = await fetchShowtimes(movie, city);
       if (!mounted) return;
+
+      setState(() {
+        enabled = true;
+      });
+      Navigator.pop(context);
 
       showDialog(
         context: context,
@@ -40,11 +49,24 @@ class HomeState extends State<Home> {
 
     } catch (e) {
       if (!mounted) return;
+      Navigator.pop(context);
       print(e.toString());
     } finally {
       //_cityController.clear();
       //_movieController.clear();
     }
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Searching...'),
+        content: Center(
+          child: CircularProgressIndicator(),
+        ),
+      )
+    );
   }
 
   @override
@@ -103,7 +125,9 @@ class HomeState extends State<Home> {
                   await _search();
                 },
                 shape: ButtonShape.rectangle,
+                leading: Icon(Icons.search),
                 child: const Text('Search'),
+                enabled: enabled,
               ),
             ],
           ),
